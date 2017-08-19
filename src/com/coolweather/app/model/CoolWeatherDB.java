@@ -93,23 +93,25 @@ public class CoolWeatherDB {
 	/**
 	 * 从数据库取出某省下所有城市的信息
 	 */
-	public List<City> loadCities(int provinceId){
+	public List<City> loadCities(int provinceId) {
 		List<City> list = new ArrayList<City>();
-		Cursor cursor = db.query("City", null, "province_id = ?", new String[] {String.valueOf(provinceId) } , null, null, null);
-		if(cursor.moveToFirst()){
-			do{
+		Cursor cursor = db.query("City", null, "province_id = ?",
+				new String[] { String.valueOf(provinceId) }, null, null, null);
+		if (cursor.moveToFirst()) {
+			do {
 				City city = new City();
 				city.setId(cursor.getInt(cursor.getColumnIndex("id")));
-				city.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
-				city.setCityCode(cursor.getString(cursor.getColumnIndex("city_code")));
+				city.setCityName(cursor.getString(cursor
+						.getColumnIndex("city_name")));
+				city.setCityCode(cursor.getString(cursor
+						.getColumnIndex("city_code")));
 				city.setProvinceId(provinceId);
-			}while(cursor.moveToNext());
-		}
-		if(cursor != null){
-			cursor.close();
+				list.add(city);
+			} while (cursor.moveToNext());
 		}
 		return list;
 	}
+
 	
 	/**
 	 * 将County实例储存到数据库
@@ -120,7 +122,7 @@ public class CoolWeatherDB {
 			values.put("county_name", county.getCountyName());
 			values.put("county_code", county.getCountyCode());
 			values.put("city_id", county.getCityId());
-			db.insert("City", null, values);
+			db.insert("County", null, values);
 		}
 	}
 	
